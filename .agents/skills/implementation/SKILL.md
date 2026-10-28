@@ -45,6 +45,13 @@ Keep changes scoped and verify the behavior affected by the change.
 - Scope: Root-level formatter and bulk file-processing configuration.
 - Verification: Keep `.agents/**` and `AGENTS.md` in Oxfmt's `ignorePatterns` and confirm `pnpm format` exits successfully.
 
+**[MUST] Link the StyleX dev stylesheet from the base layout in development**
+
+- Reason: In `astro dev` the StyleX entry CSS stays `@layer stylex;` only, so every StyleX style is silently missing even though `pnpm build` output is correct.
+- Finding: 2026-10-28, user feedback: the home page CSS appeared not to apply; `/src/frontend/app/styles/stylex-entry.css` served no rules in dev, while `/virtual:stylex.css` held them.
+- Scope: `src/frontend/app/layouts/base-layout.astro` and any other document shell.
+- Verification: Keep the `import.meta.env.DEV` link to `/virtual:stylex.css`, confirm it returns the rules under `pnpm dev`, and confirm `dist/index.html` has no `virtual:stylex` reference after `pnpm build`.
+
 Add confirmed project-specific implementation rules here. Use the following
 form:
 
