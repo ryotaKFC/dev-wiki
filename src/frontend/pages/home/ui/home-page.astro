@@ -9,18 +9,45 @@ interface Props {
 }
 
 const { articles } = Astro.props;
-const headingStyle = stylex.props(styles.heading);
+const latestUpdate = articles[0]?.data.updatedAt;
+const heroStyle = stylex.props(styles.hero);
 const titleStyle = stylex.props(styles.title);
+const leadStyle = stylex.props(styles.lead);
+const statsStyle = stylex.props(styles.stats);
+const statValueStyle = stylex.props(styles.statValue);
+const statLabelStyle = stylex.props(styles.statLabel);
 const sectionHeadingStyle = stylex.props(styles.sectionHeading);
 const emptyStateStyle = stylex.props(styles.emptyState);
 const articleListStyle = stylex.props(styles.articleList);
 ---
 
-<section class={headingStyle.className} style={headingStyle.style}>
+<section class={heroStyle.className} style={heroStyle.style}>
   <h1 class={titleStyle.className} style={titleStyle.style}>
     Dev Wiki
   </h1>
-  <p>開発で学んだ内容を、後から読み返せる形で残します。</p>
+  <p class={leadStyle.className} style={leadStyle.style}>
+    開発で学んだ内容を、後から読み返せる形で残します。
+  </p>
+  <ul class={statsStyle.className} style={statsStyle.style}>
+    <li>
+      <span class={statValueStyle.className} style={statValueStyle.style}>
+        {articles.length}
+      </span>
+      <span class={statLabelStyle.className} style={statLabelStyle.style}>
+        記事
+      </span>
+    </li>
+    {latestUpdate && (
+      <li>
+        <span class={statValueStyle.className} style={statValueStyle.style}>
+          {latestUpdate.toLocaleDateString("ja-JP")}
+        </span>
+        <span class={statLabelStyle.className} style={statLabelStyle.style}>
+          最終更新
+        </span>
+      </li>
+    )}
+  </ul>
 </section>
 
 <section aria-labelledby="recent-articles">
