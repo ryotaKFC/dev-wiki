@@ -1,0 +1,94 @@
+---
+import * as stylex from "@stylexjs/stylex";
+import type { CollectionEntry } from "astro:content";
+
+import { styles } from "./article-page.stylex";
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  article: CollectionEntry<"articles">;
+  tableOfContents: Array<Heading>;
+}
+
+const { article, tableOfContents } = Astro.props;
+const isUnverified = article.data.verificationStatus === "unverified";
+const rootStyle = stylex.props(styles.root);
+const titleStyle = stylex.props(styles.title);
+const metadataStyle = stylex.props(styles.metadata);
+const metadataRowStyle = stylex.props(styles.metadataRow);
+const metadataValueStyle = stylex.props(styles.metadataValue);
+const warningStyle = stylex.props(styles.warning);
+const tableOfContentsStyle = stylex.props(styles.tableOfContents);
+const tableOfContentsHeadingStyle = stylex.props(styles.tableOfContentsHeading);
+const tableOfContentsListStyle = stylex.props(styles.tableOfContentsList);
+const bodyStyle = stylex.props(styles.body);
+---
+
+<article class={rootStyle.className} style={rootStyle.style}>
+  <header>
+    <h1 class={titleStyle.className} style={titleStyle.style}>
+      {article.data.title}
+    </h1>
+    <p>{article.data.summary}</p>
+    <dl class={metadataStyle.className} style={metadataStyle.style}>
+      <div class={metadataRowStyle.className} style={metadataRowStyle.style}>
+        <dt>最終検証日</dt>
+        <dd class={metadataValueStyle.className} style={metadataValueStyle.style}>
+          {article.data.verifiedAt ? article.data.verifiedAt.toLocaleDateString("ja-JP") : "未検証"}
+        </dd>
+      </div>
+      {article.data.targetVersion && (
+        <div class={metadataRowStyle.className} style={metadataRowStyle.style}>
+          <dt>対象バージョン</dt>
+          <dd class={metadataValueStyle.className} style={metadataValueStyle.style}>
+            {article.data.targetVersion}
+          </dd>
+        </div>
+      )}
+    </dl>
+    {isUnverified && (
+      <p class={warningStyle.className} style={warningStyle.style} role="status">
+        この記事は未検証です。内容の正確性は保証されていません。
+      </p>
+    )}
+  </header>
+
+  {tableOfContents.length > 0 && (
+    <nav
+      class={tableOfContentsStyle.className}
+      style={tableOfContentsStyle.style}
+      aria-labelledby="table-of-contents-heading"
+    >
+      <h2
+        id="table-of-contents-heading"
+        class={tableOfContentsHeadingStyle.className}
+        style={tableOfContentsHeadingStyle.style}
+      >
+        目次
+      </h2>
+      <ol class={tableOfContentsListStyle.className} style={tableOfContentsListStyle.style}>
+        {tableOfContents.map((heading) => {
+          const itemStyle = stylex.props(heading.depth === 3 && styles.nestedItem);
+          const linkStyle = stylex.props(styles.link);
+
+          return (
+            <li class={itemStyle.className} style={itemStyle.style}>
+              <a class={linkStyle.className} style={linkStyle.style} href={`#${heading.slug}`}>
+                {heading.text}
+              </a>
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  )}
+
+  <div class={bodyStyle.className} style={bodyStyle.style}>
+    <slot />
+  </div>
+</article>

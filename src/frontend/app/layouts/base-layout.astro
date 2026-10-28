@@ -1,0 +1,40 @@
+---
+import * as stylex from "@stylexjs/stylex";
+
+import { SiteHeader } from "@widgets/site-header";
+
+import "../styles/stylex-entry.css";
+import { styles } from "./base-layout.stylex";
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+
+const { title, description, noindex = false } = Astro.props;
+const documentStyle = stylex.props(styles.document);
+const bodyStyle = stylex.props(styles.body);
+const mainStyle = stylex.props(styles.main);
+---
+
+<!doctype html>
+<html lang="ja" class={documentStyle.className} style={documentStyle.style}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>"
+    />
+    <title>{title}</title>
+  </head>
+  <body class={bodyStyle.className} style={bodyStyle.style}>
+    <SiteHeader />
+    <main class={mainStyle.className} style={mainStyle.style}>
+      <slot />
+    </main>
+  </body>
+</html>

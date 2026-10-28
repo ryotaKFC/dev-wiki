@@ -1,0 +1,14 @@
+---
+import * as stylex from "@stylexjs/stylex";
+
+import { styles } from "./site-header.stylex";
+
+const rootStyle = stylex.props(styles.root);
+const titleStyle = stylex.props(styles.title);
+---
+
+<header class={rootStyle.className} style={rootStyle.style}>
+  <a class={titleStyle.className} style={titleStyle.style} href="/">
+    Dev Wiki
+  </a>
+</header>

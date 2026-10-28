@@ -1,0 +1,34 @@
+{
+  "name": "dev-wiki",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "pnpm build && wrangler dev",
+    "check": "astro check",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "lint": "oxlint --deny-warnings",
+    "lint:fix": "oxlint --fix",
+    "deploy": "pnpm build && wrangler deploy"
+  },
+  "dependencies": {
+    "@stylexjs/stylex": "0.19.1",
+    "astro": "7.4.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "@astrojs/compiler-rs": "0.5.2",
+    "@stylexjs/unplugin": "0.19.1",
+    "oxfmt": "0.75.0",
+    "oxlint": "1.90.0",
+    "typescript": "6.0.3",
+    "wrangler": "4.154.0"
+  },
+  "engines": {
+    "node": ">=22.12.0 <25"
+  },
+  "packageManager": "pnpm@10.34.5"
+}

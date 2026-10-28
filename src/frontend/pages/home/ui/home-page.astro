@@ -1,0 +1,66 @@
+---
+import * as stylex from "@stylexjs/stylex";
+import type { CollectionEntry } from "astro:content";
+
+import { styles } from "./home-page.stylex";
+
+interface Props {
+  articles: Array<CollectionEntry<"articles">>;
+}
+
+const { articles } = Astro.props;
+const headingStyle = stylex.props(styles.heading);
+const titleStyle = stylex.props(styles.title);
+const sectionHeadingStyle = stylex.props(styles.sectionHeading);
+const emptyStateStyle = stylex.props(styles.emptyState);
+const articleListStyle = stylex.props(styles.articleList);
+---
+
+<section class={headingStyle.className} style={headingStyle.style}>
+  <h1 class={titleStyle.className} style={titleStyle.style}>
+    Dev Wiki
+  </h1>
+  <p>開発で学んだ内容を、後から読み返せる形で残します。</p>
+</section>
+
+<section aria-labelledby="recent-articles">
+  <h2 id="recent-articles" class={sectionHeadingStyle.className} style={sectionHeadingStyle.style}>
+    最近更新した記事
+  </h2>
+  {articles.length === 0 ? (
+    <p class={emptyStateStyle.className} style={emptyStateStyle.style}>
+      記事はまだありません。
+    </p>
+  ) : (
+    <ul class={articleListStyle.className} style={articleListStyle.style}>
+      {articles.map((article) => {
+        const itemStyle = stylex.props(styles.articleItem);
+        const linkStyle = stylex.props(styles.articleLink);
+        const summaryStyle = stylex.props(styles.summary);
+        const updatedAtStyle = stylex.props(styles.updatedAt);
+
+        return (
+          <li class={itemStyle.className} style={itemStyle.style}>
+            <a
+              class={linkStyle.className}
+              style={linkStyle.style}
+              href={`/articles/${article.data.slug}/`}
+            >
+              {article.data.title}
+            </a>
+            <p class={summaryStyle.className} style={summaryStyle.style}>
+              {article.data.summary}
+            </p>
+            <time
+              class={updatedAtStyle.className}
+              style={updatedAtStyle.style}
+              datetime={article.data.updatedAt.toISOString()}
+            >
+              {article.data.updatedAt.toLocaleDateString("ja-JP")}
+            </time>
+          </li>
+        );
+      })}
+    </ul>
+  )}
+</section>

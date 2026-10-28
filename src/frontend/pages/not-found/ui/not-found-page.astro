@@ -1,0 +1,22 @@
+---
+import * as stylex from "@stylexjs/stylex";
+
+import { styles } from "./not-found-page.stylex";
+
+const rootStyle = stylex.props(styles.root);
+const titleStyle = stylex.props(styles.title);
+const linkStyle = stylex.props(styles.link);
+---
+
+<section class={rootStyle.className} style={rootStyle.style}>
+  <h1 class={titleStyle.className} style={titleStyle.style}>
+    ページが見つかりません
+  </h1>
+  <p>
+    URLを確認するか、
+    <a class={linkStyle.className} style={linkStyle.style} href="/">
+      トップページ
+    </a>
+    へ戻ってください。
+  </p>
+</section>

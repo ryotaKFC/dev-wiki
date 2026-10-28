@@ -1,0 +1,14 @@
+---
+import { getCollection } from "astro:content";
+
+import { BaseLayout } from "@app/layouts";
+import { HomePage } from "@pages/home";
+
+const articles = (await getCollection("articles")).sort(
+  (left, right) => right.data.updatedAt.getTime() - left.data.updatedAt.getTime(),
+);
+---
+
+<BaseLayout title="Dev Wiki" description="開発で学んだ内容を、後から読み返せる形で残す個人用Wiki">
+  <HomePage articles={articles} />
+</BaseLayout>
