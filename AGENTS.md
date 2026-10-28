@@ -18,3 +18,10 @@ follow `.agents/skills/git-workflow/SKILL.md`. In short:
 When a user correction, review finding, failed task, or resolved configuration
 problem reveals reusable project-specific guidance, read and follow
 `.agents/skills/capture-learning/SKILL.md` before completing the task.
+
+## Article pull requests
+
+When creating a new article and opening its pull request, read and follow
+`.agents/skills/article-pr/SKILL.md`. Use its helper script so the workflow can
+run from any session without changing the branch or files in the caller's
+current worktree.
